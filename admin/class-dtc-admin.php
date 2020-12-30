@@ -133,6 +133,7 @@ class Dtc_Admin {
 	 */
 	public function construct_plugin_page()
 	{
+		$clicks = get_post_meta('3335', 'chamar_whatsapp_clicks', true );
 		$buttons = '<p uk-margin>
 						<button class="uk-button uk-button-default uk-button-large" uk-toggle="target: #new-quiz">Novo Teste de Personalidade</button>
 					</p>';
@@ -141,6 +142,7 @@ class Dtc_Admin {
 							<div>
 								<div class="uk-card uk-card-default uk-card-body">
 									<h3 class="uk-card-title">Dashboard TooComprando</h3>
+									<p>BOLSA ESPORTE – ICONE(CLICKS): '. $clicks .'</p>
 								</div>
 							</div>
 						</div>';

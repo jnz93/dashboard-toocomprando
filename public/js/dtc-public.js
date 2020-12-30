@@ -30,29 +30,22 @@
 	 */
 
 })( jQuery );
-// capturar o click e enviar para o back end vai ajax
-// var hitButton = ;
+
 jQuery(document).ready(function(){
 	jQuery('#chamar-whats').click(function(event)
 	{
 		event.preventDefault();
 
-		var link = jQuery(this).attr('href'),
-			attrID = jQuery('#main').find('.post').attr('id'),
-			attrArr = attrID.split('-'),
-			id = attrArr[1];
-
-		console.log(id);
+		var link = jQuery(this).attr('href');
 		jQuery.ajax({
 			type: 'POST',
 			url: ajaxurl,
 			data: {
 				action: 'tooc_count_click',
-				productId: id
-			},
-			success: function (res) {
-				// window.location.href = link;
+				productId: produtId
 			}
+		}).done(function(){
+			window.location.href = link;
 		});
 	});
 })

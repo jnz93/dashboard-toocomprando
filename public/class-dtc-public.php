@@ -51,7 +51,7 @@ class Dtc_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-		add_action( 'wp_head', array($this, 'insert_ajax_url_var') );
+		add_action( 'wp_head', array($this, 'insert_js_vars') );
 	}
 
 	/**
@@ -105,11 +105,12 @@ class Dtc_Public {
 	 * 
 	 * @since 1.0.0
 	 */
-	public function insert_ajax_url_var()
+	public function insert_js_vars()
 	{
 		?>
 		<script>
-			var ajaxurl = '<?php echo admin_url('admin-ajax.php') ?>';
+			var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>',
+				produtId = '<?php echo get_the_ID(); ?>';
 		</script>
 		<?php
 	}
