@@ -55,6 +55,9 @@ class Dtc_Admin {
 		// Register plugin page
 		add_action( 'admin_menu', array($this, 'create_plugin_menu') );
 
+		// Register ajax requisitions
+		add_action('wp_ajax_tooc_count_click', array($this, 'tooc_count_click'));
+		add_action('wp_ajax_nopriv_tooc_count_click', array($this, 'tooc_count_click'));
 	}
 
 	/**
@@ -137,8 +140,7 @@ class Dtc_Admin {
 		$card_buttons = '<div class="uk-child-width-1-2@s uk-grid-match" uk-grid>
 							<div>
 								<div class="uk-card uk-card-default uk-card-body">
-									<h3 class="uk-card-title">Menu Principal</h3>
-									'. $buttons .'
+									<h3 class="uk-card-title">Dashboard TooComprando</h3>
 								</div>
 							</div>
 						</div>';
@@ -150,5 +152,23 @@ class Dtc_Admin {
 		// require_once plugin_dir_path( __FILE__ ) . 'partials/uc-qpt-new-quiz.php';
 		// require_once plugin_dir_path( __FILE__ ) . 'partials/templates/uchb-register-customer.php';
 		// require_once plugin_dir_path( __FILE__ ) . 'partials/templates/uchb-register-budget.php';
+	}
+
+	/**
+	 * Handle count click
+	 * 
+	 * @since 1.0.0
+	 */
+	public function tooc_count_click()
+	{
+		$product_id = $_POST['productId'];
+		$meta_key = 'chamar_whatsapp_clicks';
+		$curr_clicks = get_post_meta( $product_id, $meta_key, true );
+		if ($curr_clicks == '') : 
+			$curr_clicks = 0;
+		endif;
+
+		$sum_clicks = $curr_clicks + 1;
+		update_post_meta( $product_id, $meta_key, $sum_clicks );
 	}
 }

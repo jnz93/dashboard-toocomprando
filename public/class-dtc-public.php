@@ -51,7 +51,7 @@ class Dtc_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		add_action( 'wp_head', array($this, 'insert_ajax_url_var') );
 	}
 
 	/**
@@ -98,6 +98,20 @@ class Dtc_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/dtc-public.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/**
+	 * Insert js variable ajaxurl on header
+	 * 
+	 * @since 1.0.0
+	 */
+	public function insert_ajax_url_var()
+	{
+		?>
+		<script>
+			var ajaxurl = '<?php echo admin_url('admin-ajax.php') ?>';
+		</script>
+		<?php
 	}
 
 }
