@@ -55,6 +55,9 @@ class Dtc_Admin {
 		// Register plugin page
 		add_action( 'admin_menu', array($this, 'create_plugin_menu') );
 
+		// Insert short description on product action
+		add_action('save_post', array($this, 'insert_short_description_product'), 10, 3);
+
 		// Register ajax requisitions
 		add_action('wp_ajax_tooc_count_click', array($this, 'tooc_count_click'));
 		add_action('wp_ajax_nopriv_tooc_count_click', array($this, 'tooc_count_click'));
@@ -172,5 +175,31 @@ class Dtc_Admin {
 
 		$sum_clicks = $curr_clicks + 1;
 		update_post_meta( $product_id, $meta_key, $sum_clicks );
+	}
+
+	/**
+	 * Filtro: Cada novo produto cadastrado receberá um descrição curta padrão
+	 * 
+	 * @since 1.0.0
+	 */
+	public function insert_short_description_product($post_id, $post, $update)
+	{
+		if ( $update ) :
+			return;
+		endif;
+
+		// Se não for product
+		if ( 'product' !== $post->post_type ) :
+			return;
+		endif;
+
+		if ( !wp_is_post_revision( $post_id ) ) :
+			
+			if ( strlen(get_the_excerpt( $post_id )) < 45 ) :
+				$short_description = 'Preço sujeito a alteração sem aviso prévio!</br></br> Consultar Disponibilidade de Estoque e formas de pagamento clicando no botão "CHAMAR NO WHATSAPP".';
+				wp_update_post( array('ID' => $post_id, 'post_excerpt' => $short_description));
+			endif;
+
+		endif;
 	}
 }
