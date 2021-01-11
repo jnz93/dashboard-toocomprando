@@ -30,3 +30,85 @@
 	 */
 
 })( jQuery );
+
+function filterStores(val)
+{
+	var items = jQuery('#table-stores').find('tbody tr');
+	var str = val.toLocaleLowerCase();
+		items.each(function(index){
+			var dataName = jQuery(this).attr('data-name').toLocaleLowerCase();
+			var result = dataName.indexOf(str);
+
+			if (result != -1 || str.length == 0) {
+				jQuery(this).show();
+			} else {
+				jQuery(this).hide();
+			}
+		});
+}
+
+function filterProducts(el)
+{
+	// console.log(el.parent().parent().parent().siblings('table').find('tbody tr'))
+	var items = el.parent().parent().parent().siblings('table').find('tbody tr');
+	var str = el.val().toLocaleLowerCase();
+	console.log(str);
+		items.each(function(index){
+			var dataName = jQuery(this).attr('data-name').toLocaleLowerCase();
+			var result = dataName.indexOf(str);
+
+			if (result != -1 || str.length == 0) {
+				jQuery(this).show();
+			} else {
+				jQuery(this).hide();
+			}
+		});
+}
+
+function listProductsByStore(ajaxUrl, storeName, storeId) {
+	'use strict';
+
+	var modal = jQuery('#modal-product').children('.uk-modal-body');
+	jQuery.ajax({
+		type: 'POST',
+		url: ajaxUrl,
+		data: {
+			action: 'dtc_products_by_store',
+			storeName: storeName,
+			storeId: storeId,
+		},
+		beforeSend: function(){
+			modal.html('<div class="uk-flex uk-flex-center"><h3 class="uk-text-center uk-block">Carregando produtos...</h3><div uk-spinner="ratio: 3" class="uk-align-center"></div></div>');
+		}
+	}).done(function(res, test){
+		console.log(test);
+		var table = res;
+		modal.html(table);
+	})
+}
+
+
+function listenChange(el, ajaxUrl){
+	'use strict';
+
+	var tableStores = jQuery('#table-stores').find('tbody');
+	var dateSelected = el.val();
+	console.log(el.val());
+	// console.log(tableStores);
+
+	jQuery.ajax({
+		type: 'POST',
+		url: ajaxUrl,
+		data: {
+			action: 'dtc_store_clicks_by_month',
+			date: dateSelected
+		},
+		beforeSend: function(){
+			tableStores.html('<div class="uk-flex uk-flex-center"><div uk-spinner="ratio: 3" class="uk-align-center"></div></div>');
+		}
+	}).done(function(res){
+		var stores = res;
+		tableStores.html(stores);
+		// console.log(res);
+	});
+}
