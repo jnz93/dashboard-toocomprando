@@ -19,16 +19,17 @@
     <div class="uk-container">
         <h1 class="uk-margin-large-bottom">Painel Analítico - toocomprando.com</h1>
         <ul uk-tab>
-            <li><a href="#">Cliques/Hits "Chamar WhatsApp"</a></li>
             <li><a href="#">Usuários Ativos</a></li>
-            <li><a href="#">Search Meter Test</a></li>
+            <li><a href="#">Cliques/Hits "Chamar WhatsApp"</a></li>
+            <li><a href="#">Estatísticas de Buscas</a></li>
         </ul>
 
         <ul class="uk-switcher uk-margin">
+            <!-- Add usuários ativos -->
+            <li><?php require_once plugin_dir_path( __FILE__ ) . 'templates/tpl-statistics.php'; ?></li>
             <!-- Add lista de lojistas -->
             <li><?php require_once plugin_dir_path( __FILE__ ) . 'templates/tpl-table-stores.php'; ?></li>
-            <!-- Add usuários ativos -->
-            <li>Aba de usuários ativos</li>
+            <!-- Search meter results -->
             <li><?php require_once plugin_dir_path( __FILE__ ) . 'templates/tpl-search-meter-results.php'; ?></li>
         </ul>
     </div>
